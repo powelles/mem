@@ -6,7 +6,7 @@ import (
 	"runtime"
 )
 
-// Get returns a string of current memory usage such as "8KB" or "16M"
+// Get returns a string of current memory usage such as "8KB" or "16MB"
 func Get() string {
 	s := new(runtime.MemStats)
 	runtime.ReadMemStats(s)
