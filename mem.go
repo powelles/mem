@@ -10,7 +10,7 @@ import (
 func Get() string {
 	s := new(runtime.MemStats)
 	runtime.ReadMemStats(s)
-	m := s.TotalAlloc
+	m := s.Alloc
 
 	var i int
 	for {
