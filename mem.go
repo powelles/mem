@@ -6,12 +6,16 @@ import (
 	"runtime"
 )
 
-// Get returns a string of current memory usage such as "8KB" or "16MB"
-func Get() string {
+func get() *MemStats{
 	s := new(runtime.MemStats)
 	runtime.ReadMemStats(s)
-	m := s.Alloc
+	return s
+}
 
+// func Allocated returns a string of current memory usage such as "8KB" or "16MB"
+func Allocated() string {
+	m := get().Alloc
+	
 	var i int
 	for {
 		if m > 1024 {
@@ -27,11 +31,9 @@ func Get() string {
 	b[1] = "KB"
 	b[2] = "MB"
 	b[3] = "GB"
-	b[4] = "TB"
-	b[5] = "PB"
 
-	if i > 5 {
-		panic("Mem: We don't deal in anything larger than Petabytes")
+	if i > 3 {
+		panic("github.com/powelles/mem: We don't deal in anything larger than Gigabytes")
 	}
 
 	return fmt.Sprintf("%d"+b[i], m)
