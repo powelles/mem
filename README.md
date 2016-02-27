@@ -20,5 +20,5 @@ Quick Memory Usage for Go
     )
 
     func main() {
-        fmt.Println(mem.Get())
+        fmt.Println(mem.Allocated())
     }
