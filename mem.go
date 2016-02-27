@@ -6,7 +6,7 @@ import (
 	"runtime"
 )
 
-func get() *MemStats{
+func get() *runtime.MemStats{
 	s := new(runtime.MemStats)
 	runtime.ReadMemStats(s)
 	return s
