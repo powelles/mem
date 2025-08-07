@@ -2,39 +2,63 @@
 package mem
 
 import (
-	"fmt"
 	"runtime"
+	"strconv"
 )
-
-func get() *runtime.MemStats{
-	s := new(runtime.MemStats)
-	runtime.ReadMemStats(s)
-	return s
-}
 
 // func Allocated returns a string of current memory usage such as "8KB" or "16MB"
 func Allocated() string {
-	m := get().Alloc
-	
-	var i int
+	r := new(runtime.MemStats)
+	runtime.ReadMemStats(r)
+	b, i := r.HeapAlloc, 0
+
 	for {
-		if m > 1024 {
-			m = m / 1024
-		} else {
+		if b < 1024 {
 			break
 		}
+
+		b /= 1024
 		i++
 	}
 
-	b := make(map[int]string, 6)
-	b[0] = "B"
-	b[1] = "KB"
-	b[2] = "MB"
-	b[3] = "GB"
+	s := strconv.FormatUint(b, 10)
 
-	if i > 3 {
-		panic("github.com/powelles/mem: We don't deal in anything larger than Gigabytes")
+	switch i {
+	case 0:
+		// Byte
+		return s + "B"
+	case 1:
+		// Kilobyte
+		return s + "KiB"
+	case 2:
+		// Megabyte
+		return s + "MiB"
+	case 3:
+		// Gigabyte
+		return s + "GiB"
+	case 4:
+		// Terabyte
+		return s + "TiB"
+	case 5:
+		// Petabyte
+		return s + "PiB"
+	case 6:
+		// Exabyte
+		return s + "EiB"
+	case 7:
+		// Zettabyte
+		return s + "ZiB"
+	case 8:
+		// Yottabyte
+		return s + "YiB"
+	case 9:
+		// Ronnabyte (I was a bit bummed I didn't get to use Brontobytes)
+		return s + "RiB"
+	case 10:
+		// Quettabyte
+		return s + "QiB"
+	default:
+		// Anything larger than the unreasonabbly large Quettabyte gets represented by it's power
+		return s + " ** " + strconv.Itoa(i) + " Bytes"
 	}
-
-	return fmt.Sprintf("%d"+b[i], m)
 }
