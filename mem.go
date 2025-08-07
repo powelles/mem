@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-// func Allocated returns a string of current memory usage such as "8KB" or "16MB"
+// func Allocated returns a string of current memory usage such as "8KiB" or "16MiB"
 func Allocated() string {
 	r := new(runtime.MemStats)
 	runtime.ReadMemStats(r)
